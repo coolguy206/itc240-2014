@@ -74,26 +74,26 @@ $results = $preparing->get_result();
 
 <form action="index.php" method="post">
 <label>Item</label>
-<input name="item" value="<?= $item; ?>">
+<input name="item" value="<?= htmlentities($item); ?>">
 <label>Cost</label>
-<input name="total_cost" value="<?= $total; ?>">
+<input name="total_cost" value="<?= htmlentities($total); ?>">
 <label>Location</label>
-<input name="location" value="<?= $location; ?>">
+<input name="location" value="<?= htmlentities($location); ?>">
 <label>Date</label>
 <b>Please enter your date in this syntax yyyy-mm-dd for example 2014-05-16</b>
-<input name="date" value="<?= $date; ?>">
+<input name="date" value="<?= htmlentities($date); ?>">
 <input type="submit">
-<input type="hidden" value="<?= $id; ?>" name="update_id">
+<input type="hidden" value="<?= htmlentities($id); ?>" name="update_id">
 </form>
 
 <?php foreach ($results as $result) { ?>
 <p>
-<h3><?= $result["item"]; ?></h3>
+<h3><?= htmlentities($result["item"]); ?></h3>
 <ul>
-<li>Cost: <b><?= $result["total_cost"]; ?></b></li>
-<li>location: <b><?= $result["location"]; ?></b></li>
-<li>date: <b><?= $result["date"]; ?></b></li>
-<a href="?update=<?= $result["id"]; ?>">Edit</a>
+<li>Cost: <b><?= htmlentities($result["total_cost"]); ?></b></li>
+<li>location: <b><?= htmlentities($result["location"]); ?></b></li>
+<li>date: <b><?= htmlentities($result["date"]); ?></b></li>
+<a href="?update=<?= htmlentities($result["id"]); ?>">Edit</a>
 </ul>
 </p>
 <?php } ?>
