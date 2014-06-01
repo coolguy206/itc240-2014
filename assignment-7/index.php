@@ -8,7 +8,7 @@ function delete_cookie($name) {
     setcookie($name, "", 10, "/");
 }
 
-
+$view_form = '';
 if (isset($_COOKIE['view_form'])) {
 	$view_form = $_COOKIE['view_form'];
 }
@@ -19,6 +19,7 @@ if (isset($_REQUEST['view'])){
 	$view_form = $_REQUEST['view'];
 }
 
+$sort_form = '';
 if (isset($_COOKIE['sort_form'])) {
 	$sort_form = $_COOKIE['sort_form'];
 }
@@ -28,6 +29,7 @@ if (isset($_REQUEST['sort_item'])){
 	$sort_form = $_REQUEST['sort_item'];
 }
 
+$style_form = '';
 if (isset($_COOKIE['style_form'])) {
 	$style_form = $_COOKIE['style_form'];
 }
@@ -87,12 +89,15 @@ include('style1.php');
 
 <?php
 
-$sort_item = 'title';
+/*$sort_item = 'title';
 if (isset($_REQUEST['sort_item'])) {
 $sort_item = htmlentities($_REQUEST['sort_item']);
 }
+$prepare = $mysql->prepare('select * from library order by  ' . $sort_item . ' ASC;');*/
 
-$prepare = $mysql->prepare('select * from library order by  ' . $sort_item . ' ASC;');
+$select = 'SELECT * FROM library ORDER BY ? ASC';
+$prepare = $mysql->prepare($select);
+$prepare->bind_param("s", $_REQUEST['sort_item']);
 $prepare->execute();
 $results = $prepare->get_result();
 
@@ -100,13 +105,13 @@ $results = $prepare->get_result();
 
 <form action="index.php" method="get">
 <p>Please choose Cover or List View</p>
-<input name="view" placeholder="cover or list" value="<?= $view_form; ?>">
+<input name="view" placeholder="cover or list" value="<?= htmlentities($view_form); ?>">
 
 <p>Sort by Title or Author</p>
-<input name="sort_item" placeholder="title or author" value="<?= $sort_form; ?>">
+<input name="sort_item" placeholder="title or author" value="<?= htmlentities($sort_form); ?>">
 
 <p>Please choose theme 1 or 2</p>
-<input name="style" placeholder="1 or 2" value="<?= $style_form; ?>">
+<input name="style" placeholder="1 or 2" value="<?= htmlentities($style_form); ?>">
 
 
 <button>Submit</button>
