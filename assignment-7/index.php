@@ -44,15 +44,6 @@ make_cookie('sort_form', $sort_form);
 make_cookie('style_form', $style_form);
 
 
-/*if (isset($_COOKIE['library_form'])) {
-$library = $_COOKIE['library_form'];
-}
-
-if (isset($_REQUEST['view'])) {
-	make_cookie('library_form', $_REQUEST['view']);
-	$library = $_REQUEST['view'];
-}*/
-
 include('password.php'); 
 
 ?>
@@ -89,15 +80,24 @@ include('style1.php');
 
 <?php
 
-/*$sort_item = 'title';
+$sort_item = 'title';
 if (isset($_REQUEST['sort_item'])) {
-$sort_item = htmlentities($_REQUEST['sort_item']);
+$sort_item = $_REQUEST['sort_item'];
 }
-$prepare = $mysql->prepare('select * from library order by  ' . $sort_item . ' ASC;');*/
 
-$select = 'SELECT * FROM library ORDER BY ? ASC';
-$prepare = $mysql->prepare($select);
-$prepare->bind_param("s", $_REQUEST['sort_item']);
+$sort_item = $mysql->real_escape_string($sort_item);
+
+    $whitelist = [
+        "title" => true,
+        "author" => true
+    ];
+
+ if (!isset($whitelist[$sort_item])) {
+        $sort_item = 'title';
+    }
+
+$prepare = $mysql->prepare("SELECT * FROM library ORDER BY $sort_item ASC;");
+
 $prepare->execute();
 $results = $prepare->get_result();
 
