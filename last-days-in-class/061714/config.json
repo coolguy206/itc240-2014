@@ -1,0 +1,5 @@
+{
+	"hello": "world",
+	"port":8080,
+	"runAsAdmin": false
+}

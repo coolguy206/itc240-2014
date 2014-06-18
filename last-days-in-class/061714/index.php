@@ -33,3 +33,8 @@ $replace
 );
 
 echo nl2br($replace);
+
+$json = file_get_contents("config.json");
+
+$decode = json_decode($json, true);
+print_r($decode["hello"]);
